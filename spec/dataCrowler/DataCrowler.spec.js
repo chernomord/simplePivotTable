@@ -15,10 +15,24 @@ describe('Data Crawler', () => {
        expect(matched.length).toBe(1);
        expect(matched[0].price).toBe('24000');
     });
-    it('should get pivot result as a dict of arrays of the fields not included in rows and cols', () => {
+    it('should get pivot result as a 2d array of matched data items array', () => {
         let data = new DataCrawler();
         let results = data.pivotResultsRaw(cars, ['year', 'department'], ['brand', 'type']);
         expect(results[0][0].length).toBe(1);
         expect(results[0][0][0].price).toBe('24000');
+    });
+    it('should calculate single result array with passed callback function', () => {
+        let data = new DataCrawler();
+        let resultsTable = data.pivotResultsRaw(cars, ['year', 'department'], ['brand', 'type']);
+        let summ = function (matchedItems) {
+            let result = 0;
+            for (let item of matchedItems) {
+                result += +item.price
+            }
+            return result;
+        };
+        let refactoredResults = data.calculateResults(resultsTable, summ);
+        expect(refactoredResults[0][0]).toBe(24000);
+        expect(refactoredResults[6][2]).toBe(141000);
     })
 });

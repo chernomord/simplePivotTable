@@ -81,6 +81,25 @@ class DataCrawler {
 
     /**
      *
+     * @param rawResultsTable {Array[]}
+     * @param callback {Function}
+     * @returns {Array}
+     */
+    calculateResults(rawResultsTable, callback) {
+        let refinedResults = [];
+        for (let rowId in rawResultsTable) {
+            refinedResults[rowId] = [];
+            for (let colId in rawResultsTable[rowId]) {
+                // refinedResults[rowId][colId] = [];
+                let matchedItems = rawResultsTable[rowId][colId];
+                refinedResults[rowId][colId] = callback(matchedItems);
+            }
+        }
+        return refinedResults
+    }
+
+    /**
+     *
      * @param data {Array}
      * @param rowNames {Array}
      * @param colNames {Array}
