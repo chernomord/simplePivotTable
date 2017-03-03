@@ -90,7 +90,6 @@ class DataCrawler {
         for (let rowId in rawResultsTable) {
             refinedResults[rowId] = [];
             for (let colId in rawResultsTable[rowId]) {
-                // refinedResults[rowId][colId] = [];
                 let matchedItems = rawResultsTable[rowId][colId];
                 refinedResults[rowId][colId] = callback(matchedItems);
             }

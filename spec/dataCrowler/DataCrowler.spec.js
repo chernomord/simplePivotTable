@@ -10,10 +10,10 @@ describe('Data Crawler', () => {
         expect(rowsFields[9][0]).toBe(2015);
     });
     it('should return matched items', () => {
-       let data = new DataCrawler();
-       let matched = data.findMatched(cars, ['year', 'department', 'brand', 'type'], [2014, 'Moscow', 'Honda', 'sedan']);
-       expect(matched.length).toBe(1);
-       expect(matched[0].price).toBe('24000');
+        let data = new DataCrawler();
+        let matched = data.findMatched(cars, ['year', 'department', 'brand', 'type'], [2014, 'Moscow', 'Honda', 'sedan']);
+        expect(matched.length).toBe(1);
+        expect(matched[0].price).toBe('24000');
     });
     it('should get pivot result as a 2d array of matched data items array', () => {
         let data = new DataCrawler();
