@@ -8,8 +8,8 @@ let webpackConfig = {
         path: path.resolve(__dirname, "../dist/js"),
         filename: "app.js",
         publicPath: "js/",
-        library: "PivotTable",
-        libraryTarget: "window"
+        // library: "PivotTable",
+        // libraryTarget: "window"
     },
     module: {
         rules: [
@@ -41,7 +41,8 @@ let webpackConfig = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Pivot Table',
-            filename: path.resolve(__dirname, "../dist/index.html")
+            filename: path.resolve(__dirname, "../dist/index.html"),
+            template: path.resolve(__dirname, "../src/index.html")
         })
     ]
 };

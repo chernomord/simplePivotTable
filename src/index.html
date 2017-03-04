@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Pivot table</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+    <style>
+        .pivot-table {
+            margin: 0 auto;
+            border-spacing: 0;
+            font-family: Verdana, Arial, sans-serif;
+            font-size: 11px;
+        }
+        .pivot-table .rowLabel {
+            vertical-align: top;
+        }
+        .pivot-table td,
+        .pivot-table th {
+            padding: 6px 6px;
+        }
+        .pivot-table .rowLabel {
+            text-align: left;
+            font-weight: bold;
+        }
+        .pivot-table .cell {
+            text-align: right;
+            vertical-align: bottom;
+        }
+        .pivot-table tbody tr:nth-of-type(odd) .cell {
+            background: lightgray;
+        }
+        .pivot-table th {
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
+
 
 </body>
 </html>
