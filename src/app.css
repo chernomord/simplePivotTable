@@ -1,0 +1,56 @@
+.pivot-table {
+    margin: 20px auto;
+    border-spacing: 0;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 11px;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+.pivot-table th,
+.pivot-table td {
+    border: 1px solid lightgray;
+}
+
+.pivot-table .col-name {
+    font-weight: normal;
+}
+
+.pivot-table .rowLabel {
+    vertical-align: top;
+}
+
+.pivot-table td,
+.pivot-table th {
+    position: relative;
+    padding: 6px 6px;
+}
+
+.pivot-table .rowLabel {
+    text-align: left;
+    font-weight: bold;
+}
+
+.pivot-table .cell {
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.pivot-table tbody tr:nth-of-type(odd) .cell {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.pivot-table th {
+    text-align: right;
+}
+
+.pivot-table .cell:hover::after {
+    content: "";
+    position: absolute;
+    background: rgba(148, 166, 197, 0.2);
+    left: 0;
+    top: -5000px;
+    height: 10000px;
+    width: 100%;
+    z-index: -1;
+}

@@ -1,3 +1,5 @@
+// 'use strict';
+
 /**
  * Pivot builder class
  */
@@ -102,6 +104,121 @@ class PivotBuilder {
     }
 
     /**
+     * Compose table head
+     * @param rowNames {Array}
+     * @param colNames {Array}
+     * @param cols {Array}
+     * @returns {Element}
+     */
+    composeTHead (rowNames, colNames, cols) {
+        let $thead = document.createElement('thead');
+
+        for (let colInnerIdx in colNames) {
+            colInnerIdx = +colInnerIdx;
+            let $row = document.createElement('tr');
+            for (let i = 0; i < rowNames.length + 1; ++i) {
+                let $cell = document.createElement('th');
+                $cell.classList.add('col-name');
+                if (i === rowNames.length) $cell.innerText = colNames[colInnerIdx];
+                $row.appendChild($cell);
+            }
+            let colspan = 1;
+            cols.map((rowVal, i) => { // header prop values
+                let nextColVal = (cols[i + 1]) ? cols[i + 1][colInnerIdx] : undefined;
+                let curColVal = rowVal[colInnerIdx];
+
+                let $th = document.createElement('th');
+                $th.innerText = rowVal[colInnerIdx];
+                if (colNames.length === colInnerIdx + 1) $th.setAttribute('rowspan', 2);
+                if (nextColVal === curColVal) {
+                    // if next value is the same then increment colspan and pass
+                    colspan++;
+                } else {
+                    // else add cell and reset colspan
+                    $th.setAttribute('colspan', colspan);
+                    colspan = 1;
+                    $row.appendChild($th);
+                }
+
+            });
+            $thead.appendChild($row);
+        }
+        let newRow = $thead.insertRow();
+        for (let i = 0, l = rowNames.length + 1; i < l; ++i) {
+            let $th = document.createElement('th');
+            if (rowNames[i]) {
+                $th.classList.add('col-name');
+                $th.innerText = rowNames[i];
+            }
+
+            newRow.appendChild($th);
+        }
+
+        return $thead;
+    }
+
+    /**
+     *
+     * @param results {Array}
+     * @param rows {String[][]}
+     * @returns {Element}
+     */
+    composeTBody (results, rows) {
+        let $tbody = document.createElement('tbody');
+
+        let rowspan = [];
+        let cellToSpan = [];
+
+        for (let rowIdx in results) {
+            rowIdx = +rowIdx;
+            let $row = document.createElement('tr');
+            // headers
+            for (let rowColIdx in rows[rowIdx]) {
+                rowColIdx = +rowColIdx;
+                let prevRowVal = (rows[rowIdx - 1]) ? rows[rowIdx - 1][rowColIdx] : undefined;
+                let nextRowVal = (rows[rowIdx + 1]) ? rows[rowIdx + 1][rowColIdx] : undefined;
+                let currRowVal = rows[rowIdx][rowColIdx];
+                let $td = document.createElement('td');
+                $td.innerText = rows[rowIdx][rowColIdx];
+                $td.classList.add('rowLabel');
+
+                if (currRowVal !== nextRowVal && currRowVal !== prevRowVal) {
+                    $row.appendChild($td);
+                }
+                // start of repeating row headers
+                if (currRowVal === nextRowVal) {
+                    if (!rowspan[rowColIdx]) rowspan[rowColIdx] = 1;
+                    if (rowspan[rowColIdx] === 1) {
+                        cellToSpan[rowColIdx] = $td;
+                        $row.appendChild(cellToSpan[rowColIdx]);
+                    }
+                    rowspan[rowColIdx]++;
+                }
+                // end of repeating row headers
+                if (currRowVal !== nextRowVal && currRowVal === prevRowVal) {
+                    if (cellToSpan[rowColIdx]) {
+                        cellToSpan[rowColIdx].setAttribute('rowspan', rowspan[rowColIdx] + '');
+                    }
+                    rowspan[rowColIdx] = 1;
+                }
+
+                if (rows[rowIdx].length === rowColIdx + 1) {
+                    $td.setAttribute('colspan', 2);
+                }
+            }
+            // results
+            for (let result of results[rowIdx]) {
+                let $td = document.createElement('td');
+                $td.innerText = result || '';
+                $td.classList.add('cell');
+                $row.appendChild($td);
+            }
+            $tbody.appendChild($row);
+        }
+        return $tbody
+    }
+
+    /**
      * Main method, returns resulted HTMLElement with calculated Pivot table
      * @param data {Object[]} - input data
      * @param rowNames {String[]} - names array, like ['year','fruit']
@@ -120,80 +237,9 @@ class PivotBuilder {
 
         let $table = document.createElement('table');
         $table.classList.add('pivot-table');
-        let $thead = document.createElement('thead');
-        let $tbody = document.createElement('tbody');
 
-        // assemble table head
-        for (let colInnerIdx in colNames) {
-            let $row = document.createElement('tr');
-            for (let col of rowNames) { // header names columns
-                $row.appendChild(document.createElement('th'));
-            }
-            $row.appendChild(document.createElement('th'));
-            let colspan = 1;
-            cols.map((rowVal, i) => { // header prop values
-                let nextColVal = (cols[i + 1]) ? cols[i + 1][colInnerIdx] : undefined;
-                let curColVal = rowVal[colInnerIdx];
-
-                let $th = document.createElement('th');
-                $th.innerText = rowVal[colInnerIdx];
-                if (nextColVal === curColVal) {
-                    // if next value is the same then increment colspan and pass
-                    colspan++;
-                } else {
-                    // else add cell and reset colspan
-                    $th.setAttribute('colspan', colspan);
-                    colspan = 1;
-                    $row.appendChild($th);
-                }
-            });
-            $thead.appendChild($row);
-        }
-        // assemble table body
-        let rowspan = 1;
-        for (let rowIdx in results) {
-            rowIdx = +rowIdx;
-            let $row = document.createElement('tr');
-            // headers
-            let cellToSpan = null;
-            for (let rowColIdx in rows[rowIdx]) {
-                rowColIdx = +rowColIdx;
-                let prevRowVal = (rows[rowIdx - 1]) ? rows[rowIdx - 1][rowColIdx] : undefined;
-                let nextRowVal = (rows[rowIdx + 1]) ? rows[rowIdx + 1][rowColIdx] : undefined;
-                let currRowVal = rows[rowIdx][rowColIdx];
-
-                let $td = document.createElement('td');
-                $td.innerText = rows[rowIdx][rowColIdx];
-                $td.classList.add('rowLabel');
-                if (currRowVal === nextRowVal && currRowVal !== prevRowVal) {
-                    if (rowspan === 1) {
-                        $row.appendChild($td);
-                        cellToSpan = $td;
-                    }
-                    rowspan++;
-                } else if (currRowVal === prevRowVal) {
-                    rowspan++;
-                } else {
-                    rowspan++;
-                    if (cellToSpan) cellToSpan.setAttribute('rowspan', rowspan);
-                    rowspan = 1;
-                    $row.appendChild($td);
-                }
-                if (rows[rowIdx].length === rowColIdx + 1) {
-                    $td.setAttribute('colspan', 2);
-                }
-            }
-
-            // results
-            for (let result of results[rowIdx]) {
-                let $td = document.createElement('td');
-                $td.innerText = result || '';
-                $td.classList.add('cell');
-                $row.appendChild($td);
-            }
-
-            $tbody.appendChild($row);
-        }
+        let $thead = this.composeTHead(rowNames, colNames, cols);
+        let $tbody = this.composeTBody(results,rows);
 
         $table.appendChild($thead);
         $table.appendChild($tbody);

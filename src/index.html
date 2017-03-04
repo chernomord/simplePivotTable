@@ -4,38 +4,931 @@
     <meta charset="UTF-8">
     <title>Pivot table</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-javascript.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.css" rel="stylesheet"/>
     <style>
-        .pivot-table {
+        .container {
+            max-width: 1100px;
             margin: 0 auto;
-            border-spacing: 0;
-            font-family: Verdana, Arial, sans-serif;
-            font-size: 11px;
-        }
-        .pivot-table .rowLabel {
-            vertical-align: top;
-        }
-        .pivot-table td,
-        .pivot-table th {
-            padding: 6px 6px;
-        }
-        .pivot-table .rowLabel {
-            text-align: left;
-            font-weight: bold;
-        }
-        .pivot-table .cell {
-            text-align: right;
-            vertical-align: bottom;
-        }
-        .pivot-table tbody tr:nth-of-type(odd) .cell {
-            background: lightgray;
-        }
-        .pivot-table th {
-            text-align: right;
         }
     </style>
 </head>
 <body>
+<div class="container">
+    <h2>Example #1</h2>
+    <div id="example1"></div>
+</div>
+<div class="container">
+    <h2>Usage</h2>
+    <pre><code class="language-javascript">
+    let container = document.getElementById('example1');
+        let table = pivotTabe(data, ['year', 'department'], ['brand', 'model'], (items) => {
+            let result = 0;
+            for (let item of items) {
+                result += +item.price
+            }
+            return result;
+        });
+    container.appendChild(table);
+</code></pre>
+</div>
+<div class="container">
+    <h2>Example #2</h2>
+    <div id="example2"></div>
+</div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let container = document.getElementById('example1');
+        let table = pivotTabe(data, ['year', 'department'], ['brand', 'model'], (items) => {
+            let result = 0;
+            for (let item of items) {
+                result += +item.price
+            }
+            return result;
+        });
+        container.appendChild(table);
+        let container2 = document.getElementById('example2');
+        let table2 = pivotTabe(data, ['year', 'department', 'brand'], ['model'], (items) => {
+            let result = 0;
+            for (let item of items) {
+                result += +item.price
+            }
+            return result;
+        });
+        container2.appendChild(table2);
+    });
+</script>
+<script></script>
+<script>
+    const data = [
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Corolla",
+            type: "sedan",
+            price: "18000"
+        },
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Highlander",
+            type: "suv",
+            price: "35000"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Corolla",
+            type: "sedan",
+            price: "18000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Corolla",
+            type: "sedan",
+            price: "18000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Highlander",
+            type: "suv",
+            price: "35000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Corolla",
+            type: "sedan",
+            price: "18000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Highlander",
+            type: "suv",
+            price: "35000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Camry",
+            type: "sedan",
+            price: "27000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Corolla",
+            type: "sedan",
+            price: "18000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Toyota",
+            model: "Highlander",
+            type: "suv",
+            price: "35000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Toyota",
+            model: "Rav4",
+            type: "suv",
+            price: "30000"
+        },
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Accord",
+            type: "sedan",
+            price: "24000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Civic",
+            type: "sedan",
+            price: "16000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Honda",
+            model: "CR-V",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Honda",
+            model: "Pilot",
+            type: "suv",
+            price: "38000"
+        },
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2014,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2014,
+            department: "NY",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2014,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2015,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2015,
+            department: "NY",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2015,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Teana",
+            type: "sedan",
+            price: "30000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pulsar",
+            type: "sedan",
+            price: "17000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "Moscow",
+            brand: "Nissan",
+            model: "X-Trail",
+            type: "suv",
+            price: "32000"
+        },
+        {
+            year: 2016,
+            department: "NY",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        },
+        {
+            year: 2016,
+            department: "Tokyo",
+            brand: "Nissan",
+            model: "Pathfinder",
+            type: "suv",
+            price: "37500"
+        }
+    ];
+</script>
 
 </body>
 </html>
