@@ -6,7 +6,8 @@
 
 1. Download [app.js](https://chernomord.github.io/simplePivotTable/js/app.js)
 2. Link to your page `<script type="text/javascript" src="js/app.js"></script>`
-3. use pivotTable global function
+3. load any table data in JSON format into variable
+4. use pivotTable global function with the data
 ```
 pivotTabe(data, [rowNames...], [colNames...], callbackFun(items) {
     let result = 0;
@@ -25,6 +26,7 @@ Latest Chrome and FireFox
 
 ```
 npm i
+npm build
 ```
 
 ## Unit Tests
