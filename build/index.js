@@ -1,9 +1,10 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+require("babel-polyfill");
 const path = require('path');
 
 let webpackConfig = {
-    entry: "./src/app.js",
+    entry: ["./src/app.js"],
     output: {
         path: path.resolve(__dirname, "../dist/js"),
         filename: "app.js",
@@ -21,10 +22,10 @@ let webpackConfig = {
                 exclude: [
                     path.resolve(__dirname, "node_modules")
                 ],
-                loader: "babel-loader",
-                options: {
-                    presets: ["es2015"]
-                }
+                loader: "babel-loader?presets[]=es2015",
+                // query: {
+                //     presets: ["es2015"]
+                // }
             },
             {
                 test: /\.css$/,
