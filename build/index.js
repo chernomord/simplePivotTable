@@ -23,9 +23,9 @@ let webpackConfig = {
                     path.resolve(__dirname, "node_modules")
                 ],
                 loader: "babel-loader?presets[]=es2015",
-                // query: {
-                //     presets: ["es2015"]
-                // }
+                query: {
+                    presets: ["es2015"]
+                }
             },
             {
                 test: /\.css$/,
