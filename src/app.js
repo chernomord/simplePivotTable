@@ -4,4 +4,3 @@ import './app.css';
 let pivot = new PivotBuilder();
 
 window.pivotTabe = pivot.renderFknTable.bind(pivot);
-

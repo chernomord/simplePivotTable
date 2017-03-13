@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-require("babel-polyfill");
 const path = require('path');
+
+console.log(path.resolve(__dirname, "../src"))
 
 let webpackConfig = {
     entry: ["./src/app.js"],
@@ -9,23 +10,19 @@ let webpackConfig = {
         path: path.resolve(__dirname, "../dist/js"),
         filename: "app.js",
         publicPath: "js/",
-        // library: "PivotTable",
-        // libraryTarget: "window"
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, "src")
-                ],
-                exclude: [
-                    path.resolve(__dirname, "node_modules")
-                ],
-                loader: "babel-loader?presets[]=es2015",
-                query: {
-                    presets: ["es2015"]
-                }
+                include: [path.resolve(__dirname, "../src")],
+                exclude: [path.resolve(__dirname, "../node_modules")],
+                // exclude: /node_modules/,
+                loader: "babel-loader?-babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0",
+                // options: {
+                //     cacheDirectory: true,
+                //     presets: ["es2015", "stage-0"]
+                // }
             },
             {
                 test: /\.css$/,
