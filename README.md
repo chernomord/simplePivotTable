@@ -2,6 +2,8 @@
 
 [Live Examle](https://chernomord.github.io/simplePivotTable/)
 
+JavaScript module for converting CSV data into pivot table with configurable columns and rows.
+
 ## Usage
 
 1. Download [app.js](https://chernomord.github.io/simplePivotTable/js/app.js)
