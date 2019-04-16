@@ -1,4 +1,4 @@
-# Simple Pivot Table
+# Pivot Table from CSV
 
 [Live Examle](https://chernomord.github.io/simplePivotTable/)
 
