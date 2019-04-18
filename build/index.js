@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-console.log(path.resolve(__dirname, "../src"))
 
 let webpackConfig = {
     entry: ["./src/app.js"],
@@ -13,17 +12,6 @@ let webpackConfig = {
     },
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                include: [path.resolve(__dirname, "../src")],
-                exclude: [path.resolve(__dirname, "../node_modules")],
-                // exclude: /node_modules/,
-                loader: "babel-loader?-babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0",
-                // options: {
-                //     cacheDirectory: true,
-                //     presets: ["es2015", "stage-0"]
-                // }
-            },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
